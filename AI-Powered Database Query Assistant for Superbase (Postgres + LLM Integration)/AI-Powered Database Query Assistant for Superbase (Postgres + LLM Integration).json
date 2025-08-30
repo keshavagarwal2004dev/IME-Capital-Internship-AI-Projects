@@ -1,0 +1,238 @@
+{
+  "name": "AI-Powered Database Query Assistant for Superbase (Postgres + LLM Integration)",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "",
+        "options": {
+          "title": "IME BOT",
+          "customCss": ":root {\n  /* Colors */\n  --chat--color-primary: #ffffff; /* White chat toggle button */\n  --chat--color-primary-shade-50: #e6e6e6;\n  --chat--color-primary-shade-100: #cccccc;\n  --chat--color-secondary: #c0c0c0; /* Silver */\n  --chat--color-secondary-shade-50: #a9a9a9;\n  --chat--color-white: #ffffff;\n  --chat--color-light: #2c2c2c;\n  --chat--color-light-shade-50: #3a3a3a;\n  --chat--color-light-shade-100: #555555;\n  --chat--color-medium: #6a6a6a;\n  --chat--color-dark: #0f0f0f;\n  --chat--color-disabled: #555555;\n  --chat--color-typing: #999999;\n  --chat--font-family: 'Quicksand', 'Poppins', 'Open Sans', 'Helvetica Neue', sans-serif;\n\n  /* Base Layout */\n  --chat--spacing: 1rem;\n  --chat--border-radius: 1rem;\n  --chat--border-radius: 0.25rem;\n  --chat--transition-duration: 0.15s;\n  --chat--font-family: (\n    -apple-system,\n    BlinkMacSystemFont,\n    'Segoe UI',\n    Roboto,\n    Oxygen-Sans,\n    Ubuntu,\n    Cantarell,\n    'Helvetica Neue',\n    sans-serif\n  );\n\n  /* Window Dimensions */\n  --chat--window--width: 400px;\n  --chat--window--height: 600px;\n  --chat--window--bottom: var(--chat--spacing);\n  --chat--window--right: var(--chat--spacing);\n  --chat--window--z-index: 9999;\n  --chat--window--border: 1px solid var(--chat--color-light-shade-50);\n  --chat--window--border-radius: var(--chat--border-radius);\n  --chat--window--margin-bottom: var(--chat--spacing);\n\n  /* Header Styles */\n  --chat--header-height: auto;\n  --chat--header--padding: var(--chat--spacing);\n  --chat--header--background: var(--chat--color-dark);\n  --chat--header--color: var(--chat--color-secondary);\n  --chat--header--border-top: none;\n  --chat--header--border-bottom: none;\n  --chat--header--border-left: none;\n  --chat--header--border-right: none;\n  --chat--heading--font-size: 2em;\n  --chat--subtitle--font-size: inherit;\n  --chat--subtitle--line-height: 1.8;\n\n  /* Message Styles */\n  --chat--message--font-size: 1rem;\n  --chat--message--padding: var(--chat--spacing);\n  --chat--message--border-radius: var(--chat--border-radius);\n  --chat--message-line-height: 1.5;\n  --chat--message--margin-bottom: calc(var(--chat--spacing) * 1);\n  --chat--message--bot--background: #1a1a1a;\n  --chat--message--bot--color: var(--chat--color-white);\n  --chat--message--bot--border: none;\n  --chat--message--user--background: var(--chat--color-secondary);\n  --chat--message--user--color: var(--chat--color-dark);\n  --chat--message--user--border: none;\n  --chat--message--pre--background: rgba(255, 255, 255, 0.1);\n  --chat--messages-list--padding: var(--chat--spacing);\n\n  /* Toggle Button */\n  --chat--toggle--size: 64px;\n  --chat--toggle--width: var(--chat--toggle--size);\n  --chat--toggle--height: var(--chat--toggle--size);\n  --chat--toggle--border-radius: 50%;\n  --chat--toggle--background: var(--chat--color-white);\n  --chat--toggle--hover--background: var(--chat--color-primary-shade-50);\n  --chat--toggle--active--background: var(--chat--color-primary-shade-100);\n  --chat--toggle--color: var(--chat--color-dark);\n\n  /* Input Area */\n  --chat--textarea--height: 50px;\n  --chat--textarea--max-height: 30rem;\n  --chat--input--font-size: inherit;\n  --chat--input--border: 0;\n  --chat--input--border-radius: 0;\n  --chat--input--padding: 0.8rem;\n  --chat--input--background: #1e1e1e;\n  --chat--input--text-color: var(--chat--color-white);\n  --chat--input--line-height: 1.5;\n  --chat--input--placeholder--font-size: var(--chat--input--font-size);\n  --chat--input--border-active: 0;\n  --chat--input--left--panel--width: 2rem;\n\n  /* Button Styles */\n  --chat--button--color: var(--chat--color-dark);\n  --chat--button--background: var(--chat--color-secondary);\n  --chat--button--padding: calc(var(--chat--spacing) * 1 / 2) var(--chat--spacing);\n  --chat--button--border-radius: var(--chat--border-radius);\n  --chat--button--hover--color: var(--chat--color-dark);\n  --chat--button--hover--background: var(--chat--color-secondary-shade-50);\n  --chat--close--button--color-hover: var(--chat--color-white);\n\n  /* Send and File Buttons */\n  --chat--input--send--button--background: #2a2a2a;\n  --chat--input--send--button--color: var(--chat--color-secondary);\n  --chat--input--send--button--background-hover: var(--chat--color-secondary-shade-50);\n  --chat--input--send--button--color-hover: var(--chat--color-white);\n  --chat--input--file--button--background: #2a2a2a;\n  --chat--input--file--button--color: var(--chat--color-secondary);\n  --chat--input--file--button--background-hover: var(--chat--input--file--button--background);\n  --chat--input--file--button--color-hover: var(--chat--color-secondary-shade-50);\n  --chat--files-spacing: 0.25rem;\n\n  /* Body and Footer */\n  --chat--body--background: var(--chat--color-light);\n  --chat--footer--background: var(--chat--color-light);\n  --chat--footer--color: var(--chat--color-white);\n}\n\n/* You can override any class styles, too. Right-click inspect in Chat UI to find class to override. */\n.chat-message {\n  max-width: 50%;\n  border-radius: var(--chat--border-radius);\n  font-family: var(--chat--font-family);\n}\n"
+        }
+      },
+      "id": "8b787c95-411a-41e0-93b7-46dda4508dc7",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        144,
+        224
+      ],
+      "webhookId": "be2fcabf-04f4-4026-acab-e687db57aff3",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        736
+      ],
+      "id": "e10fe7ae-4762-430f-8881-658af195ca1c",
+      "name": "Postgres Chat Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to get a list of all tables with their schema in the database",
+        "operation": "executeQuery",
+        "query": "SELECT \n    table_schema,\n    table_name\nFROM information_schema.tables\nWHERE table_type = 'BASE TABLE'\n    AND table_schema NOT IN ('pg_catalog', 'information_schema')\nORDER BY table_schema, table_name;",
+        "options": {}
+      },
+      "id": "d5aa8cdf-6370-472a-a998-248dd24b4643",
+      "name": "DB Schema and Tables",
+      "type": "n8n-nodes-base.postgresTool",
+      "position": [
+        496,
+        736
+      ],
+      "typeVersion": 2.5
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to get table definition to find all columns and types",
+        "operation": "executeQuery",
+        "query": "select\n  c.column_name,\n  c.data_type,\n  c.is_nullable,\n  c.column_default,\n  tc.constraint_type,\n  ccu.table_name AS referenced_table,\n  ccu.column_name AS referenced_column\nfrom\n  information_schema.columns c\nLEFT join\n  information_schema.key_column_usage kcu\n  ON c.table_name = kcu.table_name\n  AND c.column_name = kcu.column_name\nLEFT join\n  information_schema.table_constraints tc\n  ON kcu.constraint_name = tc.constraint_name\n  AND tc.constraint_type = 'FOREIGN KEY'\nLEFT join\n  information_schema.constraint_column_usage ccu\n  ON tc.constraint_name = ccu.constraint_name\nwhere\n  c.table_name = '{{ $fromAI(\"table_name\") }}'\n  AND c.table_schema = '{{ $fromAI(\"schema_name\") }}'\norder by\n  c.ordinal_position",
+        "options": {}
+      },
+      "id": "6c814cd5-6501-4ade-a75a-444b3d036880",
+      "name": "Table Definitions",
+      "type": "n8n-nodes-base.postgresTool",
+      "position": [
+        656,
+        736
+      ],
+      "typeVersion": 2.5
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool to query the database with SQL queries.",
+        "operation": "executeQuery",
+        "query": "{{ $fromAI(\"sql_query\", \"SQL Query\") }}",
+        "options": {}
+      },
+      "id": "8014f024-e8b4-41fb-95aa-d82a017959d8",
+      "name": "Execute SQL Query",
+      "type": "n8n-nodes-base.postgresTool",
+      "position": [
+        816,
+        736
+      ],
+      "typeVersion": 2.5
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200,
+        "width": 500,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        448,
+        688
+      ],
+      "typeVersion": 1,
+      "id": "c0f8f712-a7cc-46f1-8330-7940ffbf9c50",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a specialized AI assistant designed to answer user questions by retrieving information from superbase database. To achieve this, you must strictly follow the process outlined below, utilizing the provided tools at each step.\n\n## TOOLS\n- **DB Schema and Tables** : Use this tool to get a list of all tables and their respective schemas within the database. This provides an overview of the database structure.\n-**Table Definitions**: Use this tool to obtain the specific definition for a given table. This includes all column names and their data types.\n-**Execute SQL Query**: Use this tool to run SQL queries against the database and retrieve data.\n-**{table_name}description **: Use this tool to get more contextual information regarding the column of the tables  where {table_name} variable changes with table name .\n\n\n## Important Rules:\n-Strictly follow the sequence of operations described .\n-Do not skip steps. Each step provides essential information for the next.\n-If the user's question is ambiguous at any stage (e.g., it's unclear which table or columns are relevant), ask for clarification before proceeding.\n-Your primary function is to retrieve and present data using these tools and this defined process.\n\n## Sequence of operations:\n-step 1 On receiving a user’s question, begin by running the DB Schema and Tables tool.\n-step 2 Analyze the user's question and the list of tables and Decide which table(s) are most  relevant to answering the question. Use JOINs if necessary.\n-step 3 Use Table Definitions to review the columns and data types for each identified table\n-step 4 Use the {table_name} description tool to understand what each column represents  and  this context is critical for constructing meaningful queries and interpreting results.\n-step 5 Construct a precise SQL query using your understanding of the question, table structure, and column meanings.\n-step 6 Run the query using Execute SQL Query.\n\n## NOTES :\n- ***Check for the name of the column using  **Table Definitions** tool and **{table_name}description ** tool***\n- *** if result coming null mention \"that no value is entered in the superbase \"\n\n##  INTELLIGENT QUERYING GUIDELINES :\n\n* Think like a financial analyst: identify dependencies such as **strategy categories**, **ratings**, **performance metrics**, etc.\n* Use multi-step reasoning: for example, identify a category ID, find related strategies, and then filter by rating.\n* If the user's request lacks clarity (e.g., which fund, timeframe, metric), **ask for clarification** before proceeding.\n* All insights should be grounded in database facts — avoid assumptions or external speculation.\n\n\n###  EXAMPLE QUERY STRATEGY :\n\n**User Question**: *What are the 5-star Flexi-cap PMS strategies you recommend?*\n\n**Approach**:\n\n1. Find the table with category data and get the ID for \"Flexi-cap\".\n2. Identify PMS strategies that belong to this category.\n3. Filter these strategies based on a 5-star rating.\n4. Return the names and possibly additional details of these recommended strategies.\n\n\n",
+          "passthroughBinaryImages": false
+        }
+      },
+      "id": "28d389e3-5c4c-4dad-b864-16a848a82484",
+      "name": "Postgres Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        512,
+        224
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        448
+      ],
+      "id": "a12493c9-15b1-4c42-9b93-bc2106bfc15c",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        704
+      ],
+      "typeVersion": 1,
+      "id": "0ae71427-00d2-4d96-9c13-b69fc8a14333",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DB Schema and Tables": {
+      "ai_tool": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table Definitions": {
+      "ai_tool": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute SQL Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Postgres Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3f9fc5e4-97a3-4e1a-a613-956195aec835",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "37ecc19b4c20948e6f8795f32f9a773f0f35f65230878a3eef1d8b196ea58bb9"
+  },
+  "id": "X0QNVfZQgW73U4W3",
+  "tags": [
+    {
+      "createdAt": "2025-08-30T08:48:56.367Z",
+      "updatedAt": "2025-08-30T08:48:56.367Z",
+      "id": "8bjyDQ4awrIJWKMW",
+      "name": "copy"
+    }
+  ]
+}

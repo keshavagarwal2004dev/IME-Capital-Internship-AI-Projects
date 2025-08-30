@@ -1,0 +1,68 @@
+{
+  "name": "Single company folder [ DELETE DATBASE ]",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM public.documents;\nTRUNCATE TABLE public.n8n_chat_histories RESTART IDENTITY;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        640,
+        40
+      ],
+      "id": "42118d0e-69a5-4c6f-91bb-82b9af5f6bf1",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "eYhQKJlsU9R1czE2",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        380,
+        40
+      ],
+      "id": "7f052308-22e7-401f-9bb1-c75ec40dba4b",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "22806dc7-3409-43cf-b5bc-bedeb4b0a944",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2649a266de357a54636754607538f51307f3d42b280f0e6c9f18349930ab68b0"
+  },
+  "id": "nbaOQr0sLHYAW0aK",
+  "tags": []
+}

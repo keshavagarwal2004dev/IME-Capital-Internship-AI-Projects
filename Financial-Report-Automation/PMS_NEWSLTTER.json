@@ -1,0 +1,313 @@
+{
+  "name": "PMS NEWSLTTER",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1lmhlazGD31k3NQ4tJd053pyCyeJ6sWld",
+          "mode": "list",
+          "cachedResultName": "PMS NEWSLETTER UPLOAD ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1lmhlazGD31k3NQ4tJd053pyCyeJ6sWld"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -220
+      ],
+      "id": "4ce243cb-9cd8-4afb-8df3-ace1afc46f93",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        520,
+        -220
+      ],
+      "id": "7469577d-fb2d-4322-8261-8961f456a241",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operationMode": "documentLoader",
+        "chunkSize": 50000,
+        "chunkOverlap": 2000,
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "combineMapPrompt": "Write a concise summary retaining  all the important numerical financial data and summarize  key points and also retain csv table data in tabular form (if there )of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:",
+              "prompt": "Write a brief summary that captures all major updates, including fund activity, corporate decisions, and key market or global events retaining all the numerical data backing all this . Ensure that:\n## Focus especially on:\n\n* Fund/portfolio performance (gains or declines)\n* Key investment actions (entries, exits, profit-booking, rebalancing)\n* Notable corporate or strategic decisions\n* Significant market or macroeconomic movements (global or domestic)\n* Relevant geopolitical, fiscal, or policy updates impacting the market\n* portfolio allocation \n* top holding\n* portfolio updates  \n[Include numerical data ]\n* If multiple funds/products are mentioned, provide separate summaries for each.\n* Include a brief summary paragraph highlighting the overall developments due to market action .\n* Include a brief summary paragraph highlighting the overall developments due to non market actions .\n* Follow with bullet points detailing key fund investments, exits, and notable corporate actions and important details.\n\n**Input:**\n`{text}`\n\n**Output Format:**\n**FINAL BRIEF SUMMARY:**\n\n- **Summary:**\n  *(A brief  paragraph summarizing what happened overall)*\n\n- **Key Points:**\n\n  * *(Fund investments or additions)*\n  * *(Exits or profit-booking actions)*\n  * *(Strategic or corporate decisions)*\n  * *(Significant market or global events)*\n  * *(Allocation changes)*\n\n- **Portfolio Updates:**  \n  \n  * *(Portfolio updates if any there)*\n  * *(csv data table form if its available )"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2,
+      "position": [
+        756,
+        -220
+      ],
+      "id": "2846e139-fb56-4b6b-a8eb-33bb5a241dba",
+      "name": "Summarization Chain"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "splitPages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        860,
+        2.5
+      ],
+      "id": "6bb648f9-bf21-4a88-8195-c88983275716",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "separator": ".",
+        "chunkOverlap": 250
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        948,
+        200
+      ],
+      "id": "7a37d75b-b387-46e6-82de-80e6b60f3dca",
+      "name": "Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "response.text",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1236,
+        -220
+      ],
+      "id": "4da53360-3cde-49c5-93a7-7d9c3b2ea399",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=data",
+        "name": "=Summary of  {{ $('Google Drive').item.json.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "126WY3Q8oK3vyPIU8pn8LeyLT79SA_38n",
+          "mode": "list",
+          "cachedResultName": "PMS NEWSLETTER PDF",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/126WY3Q8oK3vyPIU8pn8LeyLT79SA_38n"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1456,
+        -220
+      ],
+      "id": "a59ae61a-58bf-49e2-a4c5-e0b0ffff1f3a",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        740,
+        0
+      ],
+      "id": "c896a5d9-0e2e-4808-9208-01883c9e51f9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ib8Ft9psjqUl66pM",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## GPT-4.1 mini \n\ninput -0.40\ncached input -0.10\noutput-1.60\n\n=> 1M tokens ",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        100
+      ],
+      "typeVersion": 1,
+      "id": "43b60a2c-e8f6-497f-a9c3-731ca8ecb94a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## GPT-4.1 nano \n\ninput -0.10\ncached input -0.025\noutput-0.4\n\n=> 1M tokens ",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1460,
+        100
+      ],
+      "typeVersion": 1,
+      "id": "d00dd3f8-3640-456d-94e1-5301553877b6",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cadc146f-596f-4a97-b49c-4e020d952f90",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2649a266de357a54636754607538f51307f3d42b280f0e6c9f18349930ab68b0"
+  },
+  "id": "HlwVjqwPisSXvkSd",
+  "tags": []
+}

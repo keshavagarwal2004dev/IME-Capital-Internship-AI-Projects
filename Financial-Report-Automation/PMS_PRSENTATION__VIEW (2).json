@@ -1,0 +1,311 @@
+{
+  "name": "PMS PRSENTATION  VIEW",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 1,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1qktUM2QlyCYK6xIx6Dlakg9GJ15y8Nev",
+          "mode": "list",
+          "cachedResultName": "PSM PRESENTATION UPLOAD ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1qktUM2QlyCYK6xIx6Dlakg9GJ15y8Nev"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        -60
+      ],
+      "id": "540f4c39-e0ad-4217-8445-83bfe6571b9e",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -460,
+        -60
+      ],
+      "id": "d87b84cf-fe85-4c8b-983c-239bfccf3231",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operationMode": "documentLoader",
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "combineMapPrompt": "Write a concise summary retaining important numerical data and also key important POINT  of the following:\n\n\"{text}\"\n\nCONCISE SUMMARY \n\n",
+              "prompt": "Write a brief summary that captures all fund_name , strategy_name , strategy_view , oth_salient_points ,  fixed_feereal , variable_fee , exit_load. The description of each of them is :\n\n* strategy_name: A one-liner description of the strategy.\n* strategy_view: A detailed explanation of the strategy, including investment approach, tools used, risk profile, and intended outcomes. ( use keywords don't generalize summary  and also use numerical data )\n* oth_salient_points: Key terms necessary for understanding the fund, including subscription limits, AIF type, redemption terms, subscription period, tenure, fund size, and other relevant information.\n*fixed_feereal: Fixed fee structure, if applicable.\n* variable_fee: Variable fee structure (typically includes hurdle rate and performance-based sharing).[<OPTION X> :<fixed_fee>% fixed + <performance_fee>% over <benchmark> + <hurdle_rate> (Hurdle Rate) ] \n* exit_load: Exit load or exit-related fees, if any.\n[NA] if data is not available .\n\nRespond only with the extracted values in this **tab-separated format**:\n\n**Input:**\n`{text}`\n\n**Output Format:**\n** VIEW **\n\n- **fund_name:**\n  *(  )*\n\n- **Key Points:**\n\n  * *(strategy_name : )*\n  * *(strategy_view : )* [ NOTE - use keywords don't generalize summary  AND also financial data ]\n  * *(oth_salient_points : )*\n  * *(fixed_feereal : )* : <fixed_fee>% fixed + <performance_fee>% over <benchmark> + <hurdle_rate> (Hurdle Rate)\n\n  * *(variable_fee : )*\n\n  * *(exit_load : )*\n\n\n\n**EXAMPLE OUTPUT :**\n-EXAMPLE 1\n** VIEW **\n\n- **fund_name:**\n   ASK Absolute Return \n\n- **Key Points:**\n\n  * * strategy_name :  Multi-Style Long Short Approach\n  * * strategy_view :  ASK Absolute Return Fund targets 100-150 bps alpha over liquid fixed-income    \n                       alternatives (net of fees and taxes) in 12+ months, focusing on low volatility and portfolio \n                       diversification. The fund uses long positions in strong stocks, short positions in overvalued or \n                       weak businesses, index puts, and a minimum 30% hedge. It leverages derivatives, tactical \n                       arbitrage, and macro overlays, analyzing economic indicators like growth rates, inflation, and \n                       sector trends to deliver consistent, risk-adjusted returns. The strategy is essentially the same \n                       strategy followed by Vaibhav & team, when they were managing the Avendus Absolute Return fund. \n\n  * * oth_salient_points :  - CAT III Open Ended AIF\n                            - 1 cr min limit\n                            - Subscription: Month End - Month Mid\n                            - Redemption: Monthly\n\n\n  * * fixed_feereal :    1.75\n  * * variable_fee  :    OPTION 1: 1% fixed  + 20% over HDFC bank FD + 25 bps (Hurdle Rate) |\n                         OPTION 2: 0% fixed + 37.5% over HDFC bank FD + 25 bps (Hurdle Rate)\n\n  * * exit_load :        [NA]\n\n-EXAMPLE 2\n** VIEW **\n\n- **fund_name:**\n   ValueQuest Scale Fund \n\n- **Key Points:**\n\n  * * strategy_name :  Pre-IPO Investment Opportunity\n  * * strategy_view :  ValueQuest Scale Fund is a Category II AIF focused on growth and late-stage opportunities in scalable Indian companies. While the strategy is sector-agnostic, it leans toward two thematic clusters: the Classic Economy, encompassing Consumer, Pharmaceuticals & Healthcare, BFSI, Niche Industries, and Manufacturing; and the New Economy, which includes Energy Transition, Technology, and Digital-first businesses. The fund seeks to back businesses with strong growth visibility and scalable models, typically targeting an exit via IPO within a 3–4 year investment horizon. \n\n  * * oth_salient_points :  - Fund Size: 3000 cr + 1000 cr\n                            - Fund Tenure: 8 + 1 + 1 yrs\n                            - Investment Ticket (in portfolio companies): 150 - 400 crs\n \n\n\n  * * fixed_feereal :    [NA]\n  * * variable_fee  :    [NA]\n\n  * * exit_load :        [NA]\n\n"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        -60
+      ],
+      "id": "c42adf55-ccc7-42c7-82e9-a3f186399615",
+      "name": "Summarization Chain"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "splitPages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        162.5
+      ],
+      "id": "f9d4acab-ed0b-432b-864d-f1c1a411b463",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 250,
+        "chunkOverlap": 70
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        360
+      ],
+      "id": "b3a2119d-149b-44d4-b7d1-462ea4d4914a",
+      "name": "Token Splitter"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        160
+      ],
+      "id": "84677c58-320f-4221-90b4-695e8613f4cc",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ib8Ft9psjqUl66pM",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "output.text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        256,
+        -60
+      ],
+      "id": "51f5aebe-e64d-4c29-aa56-6f88e29f3897",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "name": "= VIEW OF [ {{ $('Google Drive Trigger').item.json.name }} ]",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1LqlfS_hqtBvqZkt-yvKzurPKBRn7w9yz",
+          "mode": "list",
+          "cachedResultName": "PMS PRSENTATION VIEW ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1LqlfS_hqtBvqZkt-yvKzurPKBRn7w9yz"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        476,
+        -60
+      ],
+      "id": "f454e02d-1e03-455d-b77e-a9d84a8efb79",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bdd60AjYiiUX0kcp",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## GPT-4.1 mini \n\ninput -0.40\ncached input -0.10\noutput-1.60\n\n=> 1M tokens ",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        260,
+        180
+      ],
+      "typeVersion": 1,
+      "id": "19fe3e06-ba6f-4ebc-b7f0-3e283d33da44",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## GPT-4.1 nano \n\ninput -0.10\ncached input -0.025\noutput-0.4\n\n=> 1M tokens ",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        520,
+        180
+      ],
+      "typeVersion": 1,
+      "id": "37bc08a9-5668-446f-9bd0-7065e7c03fa8",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "26180ead-4bdb-4285-94c2-a353d2a27db4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2649a266de357a54636754607538f51307f3d42b280f0e6c9f18349930ab68b0"
+  },
+  "id": "Aiex0kcrQJolbt4C",
+  "tags": []
+}

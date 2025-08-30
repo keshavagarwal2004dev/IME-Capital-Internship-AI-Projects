@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Fund Analyzer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">
+          <img src="https://img.icons8.com/color/96/000000/pdf.png" alt="PDF Logo" style="height:48px;vertical-align:middle;margin-right:10px;">
+          <span style="font-size:2rem;font-weight:700;vertical-align:middle;">PDF Fund Analyzer</span>
+        </div>
+        <p style="margin-top:10px;opacity:0.98;font-size:1.08rem;">Upload your PDF and search for fund data with AI assistance</p>
+        <div style="margin-top:10px;">
+          <label for="themeSelect" style="font-size:0.95em;color:#fff;background:#222;padding:6px 14px;border-radius:8px;cursor:pointer;">Theme:</label>
+          <select id="themeSelect" style="font-size:1em;padding:6px 10px;border-radius:8px;margin-left:6px;">
+            <option value="vibrant">Vibrant</option>
+            <option value="classic">Classic</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <div class="messages" id="messages">
+          <div class="message assistant">
+            👋 Welcome! Please upload a PDF file to get started.<br>
+            <span style="font-size:0.95em;color:#666;">You can then search for specific fund information and get instant AI analysis.</span>
+          </div>
+        </div>
+
+        <div class="input-section">
+          <div class="setup-form" id="setupForm">
+            <div class="file-upload">
+              <input type="file" id="pdfFile" accept=".pdf" />
+              <label for="pdfFile" class="file-upload-label">
+                <span style="font-size:1.2em;">📄</span> <span style="margin-left:8px;">Choose PDF File</span>
+              </label>
+            </div>
+            <div class="upload-status" id="uploadStatus"></div>
+            <div style="font-size:0.95em;color:#888;margin-top:5px;">Supported: Mutual Fund Factsheets, Financial Reports, etc.</div>
+          </div>
+
+          <div class="chat-form" id="chatForm">
+            <div class="file-info" id="fileInfo"></div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="fundName"
+                class="input-field"
+                placeholder="🔎 Enter fund name to search..."
+                autocomplete="off"
+              />
+              <button
+                onclick="searchFund()"
+                class="btn btn-primary"
+                id="searchBtn"
+                title="Search for fund information"
+              >
+                <span style="font-size:1.1em;">🔍</span> Search
+              </button>
+              <button
+                onclick="debugPDF()"
+                class="btn btn-debug"
+                title="Debug PDF extraction"
+              >
+                🛠️ Debug
+              </button>
+            </div>
+            <div style="font-size:0.9em;color:#888;margin-top:8px;">Tip: Try keywords like "equity", "debt", "fund" for broader results.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // Theme switcher logic
+      const themeSelect = document.getElementById('themeSelect');
+      themeSelect.addEventListener('change', function() {
+        document.body.classList.remove('theme-vibrant', 'theme-classic', 'theme-dark');
+        document.body.classList.add('theme-' + themeSelect.value);
+      });
+      // Set default theme
+      document.body.classList.add('theme-vibrant');
+    </script>
+  </body>
+</html>

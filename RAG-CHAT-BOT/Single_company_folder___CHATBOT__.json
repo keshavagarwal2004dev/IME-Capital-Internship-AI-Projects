@@ -1,0 +1,250 @@
+{
+  "name": "Single company folder [ CHATBOT ]",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi I am here to help with questions into PDFs.",
+        "options": {
+          "title": "IME Bot",
+          "customCss": ":root {\n  /* Colors */\n  --chat--color-primary: #ffffff; /* White chat toggle button */\n  --chat--color-primary-shade-50: #e6e6e6;\n  --chat--color-primary-shade-100: #cccccc;\n  --chat--color-secondary: #c0c0c0; /* Silver */\n  --chat--color-secondary-shade-50: #a9a9a9;\n  --chat--color-white: #ffffff;\n  --chat--color-light: #2c2c2c;\n  --chat--color-light-shade-50: #3a3a3a;\n  --chat--color-light-shade-100: #555555;\n  --chat--color-medium: #6a6a6a;\n  --chat--color-dark: #0f0f0f;\n  --chat--color-disabled: #555555;\n  --chat--color-typing: #999999;\n  --chat--font-family: 'Quicksand', 'Poppins', 'Open Sans', 'Helvetica Neue', sans-serif;\n\n  /* Base Layout */\n  --chat--spacing: 1rem;\n  --chat--border-radius: 1rem;\n  --chat--border-radius: 0.25rem;\n  --chat--transition-duration: 0.15s;\n  --chat--font-family: (\n    -apple-system,\n    BlinkMacSystemFont,\n    'Segoe UI',\n    Roboto,\n    Oxygen-Sans,\n    Ubuntu,\n    Cantarell,\n    'Helvetica Neue',\n    sans-serif\n  );\n\n  /* Window Dimensions */\n  --chat--window--width: 400px;\n  --chat--window--height: 600px;\n  --chat--window--bottom: var(--chat--spacing);\n  --chat--window--right: var(--chat--spacing);\n  --chat--window--z-index: 9999;\n  --chat--window--border: 1px solid var(--chat--color-light-shade-50);\n  --chat--window--border-radius: var(--chat--border-radius);\n  --chat--window--margin-bottom: var(--chat--spacing);\n\n  /* Header Styles */\n  --chat--header-height: auto;\n  --chat--header--padding: var(--chat--spacing);\n  --chat--header--background: var(--chat--color-dark);\n  --chat--header--color: var(--chat--color-secondary);\n  --chat--header--border-top: none;\n  --chat--header--border-bottom: none;\n  --chat--header--border-left: none;\n  --chat--header--border-right: none;\n  --chat--heading--font-size: 2em;\n  --chat--subtitle--font-size: inherit;\n  --chat--subtitle--line-height: 1.8;\n\n  /* Message Styles */\n  --chat--message--font-size: 1rem;\n  --chat--message--padding: var(--chat--spacing);\n  --chat--message--border-radius: var(--chat--border-radius);\n  --chat--message-line-height: 1.5;\n  --chat--message--margin-bottom: calc(var(--chat--spacing) * 1);\n  --chat--message--bot--background: #1a1a1a;\n  --chat--message--bot--color: var(--chat--color-white);\n  --chat--message--bot--border: none;\n  --chat--message--user--background: var(--chat--color-secondary);\n  --chat--message--user--color: var(--chat--color-dark);\n  --chat--message--user--border: none;\n  --chat--message--pre--background: rgba(255, 255, 255, 0.1);\n  --chat--messages-list--padding: var(--chat--spacing);\n\n  /* Toggle Button */\n  --chat--toggle--size: 64px;\n  --chat--toggle--width: var(--chat--toggle--size);\n  --chat--toggle--height: var(--chat--toggle--size);\n  --chat--toggle--border-radius: 50%;\n  --chat--toggle--background: var(--chat--color-white);\n  --chat--toggle--hover--background: var(--chat--color-primary-shade-50);\n  --chat--toggle--active--background: var(--chat--color-primary-shade-100);\n  --chat--toggle--color: var(--chat--color-dark);\n\n  /* Input Area */\n  --chat--textarea--height: 50px;\n  --chat--textarea--max-height: 30rem;\n  --chat--input--font-size: inherit;\n  --chat--input--border: 0;\n  --chat--input--border-radius: 0;\n  --chat--input--padding: 0.8rem;\n  --chat--input--background: #1e1e1e;\n  --chat--input--text-color: var(--chat--color-white);\n  --chat--input--line-height: 1.5;\n  --chat--input--placeholder--font-size: var(--chat--input--font-size);\n  --chat--input--border-active: 0;\n  --chat--input--left--panel--width: 2rem;\n\n  /* Button Styles */\n  --chat--button--color: var(--chat--color-dark);\n  --chat--button--background: var(--chat--color-secondary);\n  --chat--button--padding: calc(var(--chat--spacing) * 1 / 2) var(--chat--spacing);\n  --chat--button--border-radius: var(--chat--border-radius);\n  --chat--button--hover--color: var(--chat--color-dark);\n  --chat--button--hover--background: var(--chat--color-secondary-shade-50);\n  --chat--close--button--color-hover: var(--chat--color-white);\n\n  /* Send and File Buttons */\n  --chat--input--send--button--background: #2a2a2a;\n  --chat--input--send--button--color: var(--chat--color-secondary);\n  --chat--input--send--button--background-hover: var(--chat--color-secondary-shade-50);\n  --chat--input--send--button--color-hover: var(--chat--color-white);\n  --chat--input--file--button--background: #2a2a2a;\n  --chat--input--file--button--color: var(--chat--color-secondary);\n  --chat--input--file--button--background-hover: var(--chat--input--file--button--background);\n  --chat--input--file--button--color-hover: var(--chat--color-secondary-shade-50);\n  --chat--files-spacing: 0.25rem;\n\n  /* Body and Footer */\n  --chat--body--background: var(--chat--color-light);\n  --chat--footer--background: var(--chat--color-light);\n  --chat--footer--color: var(--chat--color-white);\n}\n\n/* You can override any class styles, too. Right-click inspect in Chat UI to find class to override. */\n.chat-message {\n  max-width: 50%;\n  border-radius: var(--chat--border-radius);\n  font-family: var(--chat--font-family);\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        60
+      ],
+      "id": "416fee24-9848-4c9b-a822-d898fa75c290",
+      "name": "When chat message received",
+      "webhookId": "9e1f1466-4a15-4830-90d8-fa9683031344"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        300
+      ],
+      "id": "d866ccba-fdaf-42c5-a018-a10eb520a250",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "eYhQKJlsU9R1czE2",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        300
+      ],
+      "id": "610cd2e8-31b5-47ea-bcfe-f489134b665c",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ib8Ft9psjqUl66pM",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "Financial_Information",
+        "toolDescription": "This tool provides access to a comprehensive vector database of financial data, designed specifically for use with an AI agent in n8n. Powered by Superbase, it serves as a semantically indexed knowledge base containing structured financial information from various companies.\n\nKey features include:\n\n- Quarterly financial reports\n- Revenue and profit summaries\n- Earnings call transcripts and investor statements\n- Financial ratios and key performance indicators (KPIs)\n- Comparative performance data across quarters\n- company transcripts \n- financial snap shots \n- financial data of the companies \n\nUse this datastore to:\n- Retrieve detailed financial disclosures\n- Analyze company performance\n- Identify insights from corporate communications\n- Answer questions related to earnings, financial metrics, and business trends\n-COMPANY TRANSCRIPTS ",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        540,
+        280
+      ],
+      "id": "017acd5e-e0ed-43d5-91f0-8da60e113dc8",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "MVi3qPTwiAeQjByQ",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        420
+      ],
+      "id": "aa887076-0931-4b77-a093-eb7ea4233e6e",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Ib8Ft9psjqUl66pM",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "\n**Role Purpose:**\nYou are a helpful assistant whose sole purpose is to answer user questions using only the information retrieved from the **Financial\\_Information** vector database. You **must not** generate answers based on prior knowledge, assumptions, or external information.\n\n**Behavioral Rules:**\n\n1. **Source Restriction**:\n\n   * Only respond with information retrieved from the **Financial\\_Information** database.\n   * If the required information is not available in the database, respond with:\n     *\"I'm sorry, but I couldn't find relevant information in the database to answer your question.\"*\n\n2. **No Fabrication or External Knowledge**:\n\n   * Do **not** generate or infer information beyond what is explicitly retrieved.\n   * Do **not** include general knowledge, opinions, or invented content.\n\n3. **Greeting Handling**:\n\n   * If the user sends a greeting (e.g., \"Hi\", \"Hello\", \"Good morning\"), reply with a friendly welcome message only.\n   * Do **not** provide any financial information unless a specific question is asked.\n\n4. **Clarity and Relevance**:\n\n   * Responses should be concise, directly answering the question based on the retrieved data.\n   * Do not include unrelated commentary or elaboration.\n\n\n\n**Examples:**\n\n **User:** \"Hello\"\n **Agent:** \"Hi there! How can I assist you today?\"\n\n **User:** \"Can you tell me the net income for Company X in Q2 2023?\"\n **Agent:** *\\[Only provide an answer if found in the Financial\\_Information database.]*\n\n **Incorrect Agent Behavior:**\n\n* Generating an answer like \"I believe Company X had strong earnings in Q2 2023...\" (← This is inferred and not retrieved.)\n* Referring to general financial trends not present in the database.\n\n"
+        }
+      },
+      "id": "dc8f6dfc-b47b-4018-9640-566f3cc3a400",
+      "name": "SUPERBASE AGENT",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        340,
+        -20
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 180,
+        "width": 180,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        280,
+        260
+      ],
+      "typeVersion": 1,
+      "id": "8a146112-042f-4053-9270-aecde9c74499",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "width": 200,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        20,
+        260
+      ],
+      "typeVersion": 1,
+      "id": "1165221c-2ba7-40bf-97a8-cf7a78893436",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 300,
+        "width": 300,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        520,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "6899f815-004f-4937-a0eb-a5f5fb05ea16",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "SUPERBASE AGENT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "SUPERBASE AGENT",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SUPERBASE AGENT",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "SUPERBASE AGENT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2ad6190b-1483-4270-919d-a075012fba54",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2649a266de357a54636754607538f51307f3d42b280f0e6c9f18349930ab68b0"
+  },
+  "id": "S0DN6M86xSc4Ck0Y",
+  "tags": []
+}
